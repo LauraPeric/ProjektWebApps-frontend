@@ -63,11 +63,7 @@ export default {
   },
   methods: {
     submitRecipe() {
-      // Dodajte logiku za slanje novog recepta
-      // Možete emitovati događaj koji će obavestiti roditeljsku komponentu (jelapil.vue)
-      // da je dodan novi recept.
       this.$emit("addRecipe", this.newRecipe);
-      // Opciono: Resetujte polja nakon dodavanja recepta
       this.newRecipe = {
         recipeTitle: "",
         recipeDescription: "",
@@ -81,6 +77,3 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Dodajte stilizaciju prema potrebi */
-</style>

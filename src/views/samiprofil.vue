@@ -40,10 +40,8 @@ export default {
               cardtext: "",
               route: "",
             },
-            // Dodati ostale objave korisnika
           ],
         },
-        // Možete dodati više korisničkih objekata ovde
       ],
     };
   },

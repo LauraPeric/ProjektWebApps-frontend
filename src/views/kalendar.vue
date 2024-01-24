@@ -16,7 +16,6 @@ export default {
     return {
       calendarPlugins: [dayGridPlugin],
       events: [
-        // Vaši događaji/kalendar unosi
         {
           title: "Sastanak",
           start: "2024-01-25T10:00:00",
@@ -27,7 +26,6 @@ export default {
           start: "2024-01-25T12:30:00",
           end: "2024-01-25T13:30:00",
         },
-        // Dodajte ostale događaje
       ],
     };
   },

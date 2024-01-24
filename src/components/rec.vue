@@ -112,9 +112,9 @@ export default {
     };
   },
   created() {
-    this.currentPhotoIndex = 0; // Postavite početni indeks slike
-    this.userId = firebase.auth().currentUser?.uid; // Dohvatite UID trenutnog korisnika
-    this.fetchUserRating(); // Dohvatite korisničku ocjenu
+    this.currentPhotoIndex = 0; // Postavit početni indeks slike
+    this.userId = firebase.auth().currentUser?.uid; // Dohvatiti UID trenutnog korisnika
+    this.fetchUserRating(); // dohvatiti korisničku ocjenu
   },
   computed: {
     favoriteIcon() {
@@ -130,32 +130,24 @@ export default {
         (this.currentPhotoIndex + 1) % this.rec.photos.length;
     },
     rateRecipe(rating) {
-      if (this.userId && this.rec.recipeId) {
-        this.stars = this.stars.map((_, index) => (index < rating ? "★" : "☆"));
+      this.stars = this.stars.map((_, index) => (index < rating ? "★" : "☆"));
 
-        const ratingData = {
-          userId: this.userId,
-          recipeId: this.rec.recipeId,
-          rating: rating,
-        };
-
+      if (this.userId !== null) {
         db.collection("ratings")
           .doc(`${this.userId}_${this.rec.recipeId}`)
-          .set(ratingData)
+          .set({ rating })
           .then(() => {
             console.log("Ocjena je spremljena u Firestore");
           })
           .catch((error) => {
             console.error("Pogreška prilikom spremanja u Firestore", error);
           });
-      } else {
-        console.error("userId or recipeId is undefined");
       }
     },
     async addComment() {
       if (this.newComment.trim() !== "") {
         const commentData = {
-          authorName: "username", // Promijenite ovo s pravim imenom korisnika
+          authorName: "username", // Promijenit ovo s pravim imenom korisnika
           commentText: this.newComment.trim(),
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         };
@@ -167,11 +159,11 @@ export default {
             .collection("comments")
             .add(commentData);
 
-          // Dohvatite stvarno spremljeni komentar iz baze podataka
+          // dohvatite stvarno spremljeni komentar iz baze podataka
           const commentSnapshot = await commentRef.get();
           const comment = commentSnapshot.data();
 
-          // Odmah ažurirajte lokalno stanje dodavanjem novog komentara
+          // azuriranje lokalno stanje dodavanjem novog komentara
           this.rec.comments.unshift({
             authorName: comment.authorName,
             commentText: comment.commentText,

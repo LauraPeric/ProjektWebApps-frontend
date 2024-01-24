@@ -138,7 +138,7 @@ export default {
 }
 
 .btn-primary:hover {
-  background-color: rgb(128, 117, 114); /* Promjena boje na hover */
+  background-color: rgb(128, 117, 114);
 }
 
 .podt {
