@@ -13,9 +13,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "onama" */ '../views/Onama.vue')
   },
   {
-    path: '/profil',
-    name: 'profil',
-    component: () => import(/* webpackChunkName: "profil" */ '../views/Profil.vue')
+    path: '/samiprofil',
+    name: 'samiprofil',
+    component: () => import(/* webpackChunkName: "profil" */ '../views/samiprofil.vue')
   },
   {
     path: '/forum',
@@ -36,6 +36,46 @@ const routes = [
     path: '/objavateme',
     name: 'objavateme',
     component: () => import(/* webpackChunkName: "recepti" */ '../views/Objavateme.vue')
+  },
+  {
+    path: '/forumtema1', // dodali smo dinamički parametar ":id"
+    name: 'ForumTema',
+    component: () => import(/* webpackChunkName: "recepti" */ '../views/Forumtema1.vue')
+  },
+  {
+    path: '/receptimeso', // dodali smo dinamički parametar ":id"
+    name: 'Receptimeso',
+    component: () => import(/* webpackChunkName: "recepti" */ '../views/Receptimeso.vue')
+  },
+  {
+    path: '/registracijakilia', // dodali smo dinamički parametar ":id"
+    name: 'registracijakilia',
+    component: () => import(/* webpackChunkName: "recepti" */ '../views/Registracijakilia.vue')
+  },
+  {
+    path: '/login', // dodali smo dinamički parametar ":id"
+    name: 'login',
+    component: () => import(/* webpackChunkName: "recepti" */ '../views/login.vue')
+  },
+  {
+    path: '/signup', // dodali smo dinamički parametar ":id"
+    name: 'signup',
+    component: () => import(/* webpackChunkName: "recepti" */ '../views/signup.vue')
+  },
+  {
+    path: '/logina', // dodali smo dinamički parametar ":id"
+    name: 'logina',
+    component: () => import(/* webpackChunkName: "recepti" */ '../views/logina.vue')
+  },
+  {
+    path: '/jelapil', // dodali smo dinamički parametar ":id"
+    name: 'jelapil',
+    component: () => import(/* webpackChunkName: "recepti" */ '../views/jelapil.vue')
+  },
+  {
+    path: '/samirecept', // dodali smo dinamički parametar ":id"
+    name: 'samirecept',
+    component: () => import(/* webpackChunkName: "recepti" */ '../views/samirecept.vue')
   },
 ]
 

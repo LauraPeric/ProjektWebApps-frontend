@@ -17,6 +17,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
+          <router-link class="nav-link" to="/registracijakilia"
+            >Pridruži se</router-link
+          >
           <li class="nav-item dropdown">
             <router-link
               class="nav-link dropdown-toggle"
@@ -35,10 +38,28 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </li>
-          <router-link class="nav-link" to="/profil">Profil</router-link>
+          <router-link class="nav-link" to="/samiprofil">Profil</router-link>
           <router-link class="nav-link" to="/onama">O nama</router-link>
           <router-link class="nav-link" to="/forum">Forum</router-link>
           <router-link class="nav-link" to="/info">Informacije</router-link>
+          <a href="#" @click.prevent="logout()" class="nav-link">Odjava</a>
+          <form class="form-inline my-2 my-lg-0">
+            <input
+              v-model="store.searchterm"
+              class="form-control mr-sm-2"
+              type="search"
+              placeholder="   Pretraži"
+              aria-label="Search"
+              style="
+                margin-left: 300%;
+                padding: 7px;
+                border-radius: 20px;
+                outline: none;
+                box-shadow: none;
+                border-color: #999;
+              "
+            />
+          </form>
         </ul>
       </div>
     </nav>
@@ -50,9 +71,9 @@
           <div class="row">
             <div
               class="col-lg-6 col-md-12 mb-4 mb-md-0"
-              style="margin-left: 120px"
+              style="margin-left: 120px; font-size: 15px"
             >
-              <h5 class="naslov">
+              <h5 class="naslov" style="font-size: 18px">
                 Chef Online - gdje se vaše kulinarske želje pretvaraju u
                 stvarnost!
               </h5>
@@ -63,9 +84,9 @@
               </p>
             </div>
             <div class="col-lg-3 col-md-3 mb-4 mb-md-0">
-              <h5 class="naslov">Linkovi</h5>
+              <h5 class="naslov" style="font-size: 15px">Linkovi</h5>
 
-              <ul class="list-unstyled mb-0">
+              <ul class="list-unstyled mb-0" style="font-size: 15px">
                 <li class="mb-1">
                   <router-link to="/recepti" href="#!" style="color: #4f4f4f"
                     >Recepti</router-link
@@ -95,6 +116,51 @@
     </section>
   </div>
 </template>
+
+<script>
+import store from "@/store";
+import { firebase } from "@/firebase";
+import router from "@/router";
+
+firebase.auth().onAuthStateChanged((user) => {
+  const currentRoute = router.currentRoute;
+  console.log("STANJE PRIJAVE");
+  if (user) {
+    //korisnik je ulogiran
+    console.log("korisnik je ulogiran:", user.email);
+    store.currentUser = user.email;
+    if (currentRoute && currentRoute.meta && !currentRoute.meta.needsUser) {
+      router.push({ name: "pocetna" });
+    }
+  } else {
+    //korisnik nije ulogiran
+    console.log(store.currentUser);
+    console.log("Korisnik je odjavljen");
+    store.currentUser = null;
+
+    if (currentRoute && currentRoute.meta && currentRoute.meta.needsUser) {
+      router.push({ name: "pocetna" });
+    }
+  }
+});
+export default {
+  name: "app",
+  data() {
+    return {
+      store,
+    };
+  },
+
+  methods: {
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => this.$router.push({ name: "pocetna" }));
+    },
+  },
+};
+</script>
 
 
 <style lang="scss">

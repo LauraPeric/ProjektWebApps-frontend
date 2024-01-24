@@ -1,4 +1,3 @@
-<!-- views/AboutUs.vue -->
 <template>
   <div class="about-us">
     <div class="container">

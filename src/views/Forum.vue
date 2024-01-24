@@ -1,33 +1,23 @@
 <template>
   <div class="forum">
     <h1 style="margin-bottom: 40px">- Forum -</h1>
-
-    <input type="text" placeholder="Pretraži teme..." v-model="searchTerm" />
+    <input
+      style="padding: 7px; border-radius: 10px; border-color: black"
+      type="text"
+      placeholder="Pretraži teme..."
+      v-model="searchTerm"
+    />
     <div class="separator-line"></div>
-
-    <div class="row">
-      <div class="col-md-4" v-for="topic in topics" :key="topic.id">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ topic.title }}</h5>
-            <p class="card-text">{{ topic.shortDescription }}</p>
-            <div class="post-details">
-              <span>{{ topic.numPosts }} objava</span>
-              <span>{{ topic.lastPostDate }}</span>
-            </div>
-          </div>
-        </div>
+    <div
+      class="row"
+      style="margin-top: -20px; margin-left: 10px; margin-right: 10px"
+    >
+      <div class="col-sm-4" v-for="topic in filteredTopics" :key="topic.id">
+        <ForumTeme :topic="topic" />
       </div>
     </div>
   </div>
 </template>
-
-<!--    <div class="row">
-      <div class="col-md-4" v-for="topic in topics" :key="topic.id">
-        <forum-teme :topic="topic" />
-      </div>
-    </div> */
--->
 
 
 <script>
@@ -45,12 +35,13 @@ export default {
             "Otvorena tema za dijeljenje uputa i preporuka o pravljenju različitih okusa smoothija :)",
           numPosts: 15,
           lastPostDate: "2022-01-20",
+          route: "/objavateme",
         },
         {
           id: 2,
           title: "Brzi i jednostavni ručkovi",
           shortDescription:
-            "Koji ručak spremiti u trenu, savršen za radne dane?",
+            "Koji ručak spremiti u trenu, savršen za radne dane? upomoć molim vas!",
           numPosts: 8,
           lastPostDate: "2022-01-19",
         },
@@ -66,7 +57,7 @@ export default {
           id: 4,
           title: "Deserti bez šećera",
           shortDescription:
-            "Uživajte u slatkim trenucima s receptima za ukusne deserte bez dodanog šećera, savršene za zdravu prehranu.",
+            "Uživanje u slatkim receptima za ukusne deserte bez dodanog šećera, podjelimo recpete ;)",
           numPosts: 12,
           lastPostDate: "2022-01-17",
         },
@@ -89,6 +80,16 @@ export default {
       ],
     };
   },
+  components: {
+    ForumTeme,
+  },
+  computed: {
+    filteredTopics() {
+      let termin = this.searchTerm;
+      console.log("search termin:", termin);
+      return this.topics.filter((topic) => topic.title.includes(termin));
+    },
+  },
 };
 </script>
 
@@ -97,11 +98,6 @@ export default {
   height: 1px;
   background-color: #000000;
   margin: 20px 0;
-}
-
-.card {
-  margin-bottom: 20px;
-  margin-left: 10px;
 }
 
 .forum {
