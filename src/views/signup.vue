@@ -18,7 +18,7 @@
               <label for="email" class="input-email">Email adresa</label>
               <input
                 type="email"
-                v-model="username"
+                v-model="email"
                 class="form-control"
                 id="email"
                 aria-describedby="emailHelp"
@@ -73,37 +73,43 @@
 </template>
 
 <script>
-import { firebase } from "@/firebase";
+import axios from "axios";
 
 export default {
   name: "Signup",
   data() {
     return {
       errorMessage: "",
-      username: "",
+      email: "",
       password: "",
       passwordrepeat: "",
       passwordMismatch: false,
     };
   },
   methods: {
-    signup() {
+    async signup() {
+      console.log("Email:", this.email);
+      console.log("Password:", this.password);
+      console.log("Confirm Password:", this.passwordrepeat);
+
       if (this.password !== this.passwordrepeat) {
         this.passwordMismatch = true;
         return; // Staje ako lozinke nisu iste
       } else {
         this.passwordMismatch = false;
-        // Logika za registraciju
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(this.username, this.password)
-          .then(() => {
-            console.log("Uspješna registracija");
-            this.$router.push("/");
-          })
-          .catch((error) => {
-            console.error("Došlo je do greške", error);
+
+        try {
+          // logika za registraciju pomoću Axiosa
+          await axios.post("http://localhost:5000/register", {
+            email: this.email,
+            password: this.password,
           });
+          console.log("Uspješna registracija");
+          this.$router.push("/");
+        } catch (error) {
+          console.log("Došlo je do greške", error);
+          this.errorMessage = "Došlo je do greške prilikom registracije.";
+        }
       }
     },
   },

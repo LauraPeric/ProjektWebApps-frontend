@@ -19,6 +19,8 @@
 <script>
 import ItemCardVue from "@/components/Itemcard.vue";
 import store from "@/store";
+import { test } from "@/services";
+console.log("testiranje importa", test);
 
 let cards = [
   {

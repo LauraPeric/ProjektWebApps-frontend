@@ -15,7 +15,7 @@
               <label for="loginemail" class="input-email">Email adresa</label>
               <input
                 type="email"
-                v-model="username"
+                v-model="email"
                 class="form-control"
                 id="loginemail"
                 aria-describedby="emailHelp"
@@ -56,30 +56,34 @@
 </template>
 
 <script>
-import { firebase } from "@/firebase";
+import axios from "axios";
 
 export default {
   name: "login",
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
     };
   },
   methods: {
-    login() {
-      console.log("login..." + this.username);
-
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.username, this.password)
-        .then((result) => {
-          console.log("Uspješna prijava", result);
-          this.$router.replace({ name: "pocetna" });
-        })
-        .catch(function (e) {
-          console.error("Došlo je do greške", e);
+    async login() {
+      try {
+        const response = await axios.post("http://localhost:5000/login", {
+          email: this.email,
+          password: this.password,
         });
+
+        console.log("Uspješna prijava", response.data);
+
+        // token se sprema u lokalnom spremištu
+        localStorage.setItem("userToken", response.data.token);
+
+        // redirekcija nakon prijave
+        this.$router.push({ name: "pocetna" });
+      } catch (error) {
+        console.error("Greška pri prijavi:", error);
+      }
     },
   },
 };

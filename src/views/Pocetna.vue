@@ -45,6 +45,7 @@
   </div>
 </template>
 
+
 <style scoped>
 .home-page {
   text-align: center;

@@ -119,30 +119,31 @@
 
 <script>
 import store from "@/store";
-import { firebase } from "@/firebase";
 import router from "@/router";
+import axios from "axios";
 
-firebase.auth().onAuthStateChanged((user) => {
-  const currentRoute = router.currentRoute;
-  console.log("STANJE PRIJAVE");
-  if (user) {
-    //korisnik je ulogiran
-    console.log("korisnik je ulogiran:", user.email);
+const backendUserEndpoint = "http://localhost:5000/api/user";
+
+const fetchUserInfo = async () => {
+  try {
+    const response = await axios.get(backendUserEndpoint);
+    const user = response.data;
+
+    // postavlja informacije o korisniku u store
     store.currentUser = user.email;
+
+    // provjeri trenutnu rutu i preusmjeri ako je potrebno
+    const currentRoute = router.currentRoute;
     if (currentRoute && currentRoute.meta && !currentRoute.meta.needsUser) {
       router.push({ name: "pocetna" });
     }
-  } else {
-    //korisnik nije ulogiran
-    console.log(store.currentUser);
-    console.log("Korisnik je odjavljen");
-    store.currentUser = null;
+  } catch (error) {
+    console.error("Greška pri dohvaćanju informacija o korisniku:", error);
 
-    if (currentRoute && currentRoute.meta && currentRoute.meta.needsUser) {
-      router.push({ name: "pocetna" });
-    }
+    // U slučaju pogreške currentUser na null
+    store.currentUser = null;
   }
-});
+};
 export default {
   name: "app",
   data() {
@@ -152,11 +153,25 @@ export default {
   },
 
   methods: {
-    logout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => this.$router.push({ name: "pocetna" }));
+    async logout() {
+      const userToken = localStorage.getItem("userToken");
+
+      if (userToken) {
+        try {
+          const response = await axios.post("http://localhost:5000/logout");
+          console.log("Uspješna odjava", response.data);
+
+          // Briše token iz lokalnog spremišta
+          localStorage.removeItem("userToken");
+
+          // Redirekcija nakon odjave
+          this.$router.push({ name: "pocetna" });
+        } catch (error) {
+          console.error("Došlo je do greške pri odjavi", error);
+        }
+      } else {
+        console.log("Korisnik nije prijavljen, ne može se odjaviti.");
+      }
     },
   },
 };
