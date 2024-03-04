@@ -7,6 +7,26 @@
       placeholder="Pretraži teme..."
       v-model="searchTerm"
     />
+
+    <button v-if="showToggleButton" @click="toggleForm" class="btn btn-toggle">
+      Dodaj novu temu
+    </button>
+
+    <form
+      v-if="showForm"
+      class="dodajtemu"
+      @submit.prevent="addNewTopic"
+      style=""
+    >
+      <!-- Dodajte polja za unos podataka nove teme -->
+      <label for="title">Naslov teme:</label>
+      <textarea v-model="newTopicData.title" required></textarea>
+      <label for="shortDescription">Kratak opis teme:</label>
+      <textarea v-model="newTopicData.shortDescription" required></textarea>
+
+      <button type="submit" class="btn btn-dodaj">Dodaj temu</button>
+    </form>
+
     <div class="separator-line"></div>
     <div
       class="row"
@@ -78,16 +98,47 @@ export default {
           lastPostDate: "2022-01-15",
         },
       ],
+      showForm: false,
+      newTopicData: {
+        title: "",
+        shortDescription: "",
+        createdAt: "",
+      },
+      showToggleButton: true, // Dodajte ovu liniju
     };
   },
   components: {
     ForumTeme,
   },
   computed: {
+    allTopics() {
+      return [...this.topics, this.newTopicData];
+    },
     filteredTopics() {
       let termin = this.searchTerm;
       console.log("search termin:", termin);
       return this.topics.filter((topic) => topic.title.includes(termin));
+    },
+  },
+  methods: {
+    addNewTopic() {
+      // Postavljanje trenutnog datuma prilikom stvaranja nove teme
+      this.newTopicData.createdAt = new Date().toLocaleDateString();
+
+      // Implementacija logike za spremanje nove teme
+      this.topics.push({
+        id: this.topics.length + 1,
+        title: this.newTopicData.title,
+        shortDescription: this.newTopicData.shortDescription,
+        createdAt: this.newTopicData.createdAt,
+        // Postavite ostale podatke prema potrebi
+      });
+
+      this.showForm = false;
+    },
+    toggleForm() {
+      this.showForm = !this.showForm;
+      this.showToggleButton = !this.showForm;
     },
   },
 };
@@ -103,6 +154,66 @@ export default {
 .forum {
   margin: 50px;
   font-family: system-ui;
+}
+.btn-toggle {
+  background-color: rgb(160, 160, 160);
+  border: none;
+  cursor: pointer;
+  margin-left: 45%;
+  margin-block: 5%;
+  display: block;
+}
+.btn-toggle:hover {
+  background-color: rgb(128, 117, 114);
+}
+/* Stilizacija za textarea */
+.dodajtemu textarea {
+  width: 50%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border-color: white;
+  resize: vertical; /* Omogućuje korisnicima samo proširivanje prema vertikalnoj osi */
+}
+
+.btn-dodaj {
+  background-color: rgb(160, 160, 160);
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-left: 42%;
+  display: block;
+}
+
+.dodajrecept {
+  padding: 25px;
+  margin-top: 90px;
+  background-color: rgb(222, 215, 215);
+  width: 50%;
+  margin-left: 25%;
+  border-radius: 30px;
+}
+
+.dodajtemu label {
+  display: block; /* block elementi */
+  margin-bottom: 8px;
+}
+
+.dodajtemu input {
+  padding: 5px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border-color: white;
+}
+
+.dodajtemu {
+  padding: 20px;
+  margin-top: 50px;
+  background-color: rgb(222, 215, 215);
+  width: 50%;
+  height: 100%;
+  margin-left: 25%;
+  border-radius: 30px;
 }
 
 .post-details {

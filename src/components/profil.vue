@@ -12,7 +12,7 @@
       </div>
       <div class="user-buttons">
         <button @click="showFavoriteRecipes">⭐ Omiljeni recepti</button>
-        <button @click="showCalendar">📅 Kalendar</button>
+        <button @click="showCalendar">📝 Bilješke</button>
       </div>
     </div>
 

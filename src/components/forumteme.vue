@@ -6,7 +6,7 @@
         <p class="card-text">{{ topic.shortDescription }}</p>
         <div class="post-details">
           <span>{{ topic.numPosts }} objava</span>
-          <span>{{ topic.lastPostDate }}</span>
+          <span>{{ topic.createdAt }}</span>
           <router-link
             :to="topic.route"
             v-if="topic.route && topic.route !== ''"
