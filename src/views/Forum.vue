@@ -18,7 +18,7 @@
       @submit.prevent="addNewTopic"
       style=""
     >
-      <!-- Dodajte polja za unos podataka nove teme -->
+      <!-- polje za unos podataka nove teme -->
       <label for="title">Naslov teme:</label>
       <textarea v-model="newTopicData.title" required></textarea>
       <label for="shortDescription">Kratak opis teme:</label>
@@ -104,7 +104,7 @@ export default {
         shortDescription: "",
         createdAt: "",
       },
-      showToggleButton: true, // Dodajte ovu liniju
+      showToggleButton: true,
     };
   },
   components: {
@@ -122,16 +122,15 @@ export default {
   },
   methods: {
     addNewTopic() {
-      // Postavljanje trenutnog datuma prilikom stvaranja nove teme
+      //  trenutnog datuma prilikom stvaranja nove teme
       this.newTopicData.createdAt = new Date().toLocaleDateString();
 
-      // Implementacija logike za spremanje nove teme
+      //  logika za spremanje nove teme
       this.topics.push({
         id: this.topics.length + 1,
         title: this.newTopicData.title,
         shortDescription: this.newTopicData.shortDescription,
         createdAt: this.newTopicData.createdAt,
-        // Postavite ostale podatke prema potrebi
       });
 
       this.showForm = false;
@@ -173,7 +172,7 @@ export default {
   margin-bottom: 16px;
   border-radius: 10px;
   border-color: white;
-  resize: vertical; /* Omogućuje korisnicima samo proširivanje prema vertikalnoj osi */
+  resize: vertical;
 }
 
 .btn-dodaj {

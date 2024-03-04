@@ -4,7 +4,7 @@
     <p class="podt">
       Najbolji izbor mesnih delicija: kulinarsko putovanje kroz recepte s mesom!
     </p>
-    <!-- Dodajte formu za unos novog recepta -->
+    <!-- forma za unos novog recepta -->
     <button v-if="showToggleButton" @click="toggleForm" class="btn btn-toggle">
       Dodaj svoj recept
     </button>
@@ -26,8 +26,6 @@
       />
       <label>Detalji recepta:</label>
       <textarea v-model="newRecipeData.recipeDetails" required></textarea>
-
-      <!-- Dodajte ostale input elemente prema potrebi -->
       <button type="submit" class="btn btn-dodaj">Dodaj recept</button>
     </form>
 
@@ -103,7 +101,7 @@ export default {
         recipeDetails: "",
         recipeImage: [],
       },
-      showToggleButton: true, // Dodajte ovu liniju
+      showToggleButton: true,
       showForm: false,
     };
   },
@@ -120,7 +118,7 @@ export default {
   },
   methods: {
     async addNewRecipe() {
-      console.log(axios); // Dodajte ovu liniju
+      console.log(axios);
 
       try {
         console.log("Pokušaj slanja zahtjeva:", this.newRecipeData);
@@ -161,7 +159,7 @@ export default {
         const response = await this.axios.get("/api/recipes");
 
         if (response.status === 200) {
-          // Ažurirajte lokalni popis recepata s podacima dobivenim s backenda
+          // ažuriranje lokalnog popis recepata s podacima dobivenim s backenda
           this.cards = response.data;
         } else {
           console.error("Neuspješan zahtjev za dobivanje recepata.");
@@ -196,7 +194,7 @@ export default {
 .recept {
   font-family: system-ui;
 }
-/* Dodajte stil za gumb koji će se koristiti za toggle */
+
 .btn-toggle {
   background-color: rgb(160, 160, 160);
   border: none;
@@ -217,14 +215,14 @@ export default {
   margin-left: 25%;
   border-radius: 30px;
 }
-/* Stilizacija za textarea */
+
 .dodajrecept textarea {
   width: 50%;
   padding: 8px;
   margin-bottom: 16px;
   border-radius: 10px;
   border-color: white;
-  resize: vertical; /* Omogućuje korisnicima samo proširivanje prema vertikalnoj osi */
+  resize: vertical;
 }
 
 .dodajrecept label {
@@ -247,7 +245,7 @@ export default {
   padding: 8px 16px;
   margin: 40px;
 }
-/* Stilizacija za "Opis recepta" label i input */
+
 .dodajrecept label[for="opisRecepta"] {
   display: block;
   margin-top: 16px;
