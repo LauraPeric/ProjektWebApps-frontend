@@ -126,12 +126,18 @@ export default {
       this.newTopicData.createdAt = new Date().toLocaleDateString();
 
       //  logika za spremanje nove teme
-      this.topics.push({
+      const newTopic = {
         id: this.topics.length + 1,
         title: this.newTopicData.title,
         shortDescription: this.newTopicData.shortDescription,
         createdAt: this.newTopicData.createdAt,
-      });
+      };
+
+      if (this.showForm) {
+        newTopic.route = `/objavateme/${newTopic.id}`; // novi path
+      }
+
+      this.topics.unshift(newTopic);
 
       this.showForm = false;
     },

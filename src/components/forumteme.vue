@@ -5,8 +5,7 @@
         <h5 class="card-title">{{ topic.title }}</h5>
         <p class="card-text">{{ topic.shortDescription }}</p>
         <div class="post-details">
-          <span>{{ topic.numPosts }} objava</span>
-          <span>{{ topic.createdAt }}</span>
+          <span class="created-at">{{ topic.createdAt }}</span>
           <router-link
             :to="topic.route"
             v-if="topic.route && topic.route !== ''"
@@ -35,7 +34,6 @@ export default {
 </script>
 
 
-
 <style scoped>
 .card {
   margin-bottom: 20px;
@@ -43,6 +41,9 @@ export default {
 .card-body-container {
   max-height: 200px;
   overflow: hidden;
+}
+.created-at {
+  margin-top: 20px;
 }
 .btn-primary {
   background-color: rgb(160, 160, 160);

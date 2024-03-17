@@ -2,8 +2,12 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="card">
-        <img class="card-image-top" :src="info.url" alt="Card image cap" />
-
+        <img
+          :src="info.url"
+          class="card-img-top"
+          :class="{ 'custom-image-size': applyCustomSize }"
+          alt="Card image cap"
+        />
         <div class="card-body">
           <h5 class="card-title">{{ info.cardtitle }}</h5>
           <p class="card-text">{{ info.cardtext }}</p>
@@ -22,20 +26,28 @@
   </div>
 </template>
 
-
 <script>
 export default {
   props: ["info"],
   name: "ItemCard",
+  applyCustomSize: {
+    type: Boolean,
+    default: false,
+  },
 };
 </script>
 
 <style scoped>
-.card-image-top {
+.card-img-top {
   width: 100%;
   height: auto;
 }
 
+.custom-image-size {
+  width: 338px;
+  height: 150px;
+  object-fit: cover;
+}
 .card {
   margin-bottom: 20px;
 }

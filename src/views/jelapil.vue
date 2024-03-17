@@ -36,6 +36,10 @@
       <div class="col-sm-4" v-for="card in filtercards" :key="card.url">
         <item-card-vue :info="card" />
       </div>
+      <!--<div class="col-sm-4" v-for="card in filtercards" :key="card.url">
+  <item-card-vue :info="card" :applyCustomSize="true" />
+</div> TREBA BIT 238 I 150 VELICINA 
+ -->
     </div>
     <div>
       <router-link to="/recepti" class="btn btn-nazad">Nazad</router-link>
@@ -118,72 +122,55 @@ export default {
   },
   methods: {
     async addNewRecipe() {
-      console.log(axios);
-
       try {
-        console.log("Pokušaj slanja zahtjeva:", this.newRecipeData);
+        const formData = new FormData();
+        formData.append("title", this.newRecipeData.recipeTitle);
+        formData.append("description", this.newRecipeData.recipeDescription);
+        formData.append("authorName", this.newRecipeData.authorName);
+        formData.append("recipeDetails", this.newRecipeData.recipeDetails);
+        formData.append("recipeImages", this.newRecipeData.recipeImage);
 
-        const response = await axios.post(
-          "http://localhost:5000/saverecipe",
-          this.newRecipeData
-        );
+        // Slanje na api
+        axios.post("/api/saverecipe", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-        console.log("Odgovor od servera:", response);
+        // ako uspijeh
+        console.log("Recipe saved successfully:", response.data);
 
-        if (response.status === 201) {
-          console.log("Recept uspješno spremljen.");
-          this.fetchRecipes();
-        } else {
-          console.error("Neuspješan zahtjev za spremanje recepta.");
-        }
+        this.cards.unshift({
+          url: this.newRecipeData.recipeImage, // recipeImage
+          cardtitle: this.newRecipeData.recipeTitle,
+          cardtext: this.newRecipeData.recipeDescription,
+          route: "/jelapil", //  rutu po želji
+        });
+
+        //  reset
+        this.newRecipeData = {
+          recipeTitle: "",
+          recipeDescription: "",
+          authorName: "",
+          recipeImage: "",
+          recipeDetails: "",
+        };
+
+        // sakrit formu
+        this.showForm = false;
       } catch (error) {
-        console.error(
-          "Došlo je do pogreške prilikom komunikacije s backendom:",
-          error
-        );
-      }
-
-      this.newRecipeData = {
-        recipeTitle: "",
-        recipeDescription: "",
-        authorName: "",
-        recipeImage: "",
-        recipeDetails: "",
-      };
-
-      this.showForm = false;
-    },
-
-    async fetchRecipes() {
-      try {
-        const response = await this.axios.get("/api/recipes");
-
-        if (response.status === 200) {
-          // ažuriranje lokalnog popis recepata s podacima dobivenim s backenda
-          this.cards = response.data;
-        } else {
-          console.error("Neuspješan zahtjev za dobivanje recepata.");
-        }
-      } catch (error) {
-        console.error(
-          "Došlo je do pogreške prilikom komunikacije s backendom:",
-          error
-        );
+        console.error("Error saving recipe:", error);
+        //  errors
       }
     },
     toggleForm() {
       this.showForm = !this.showForm;
-      if (this.showForm) {
-        this.showToggleButton = false;
-      }
     },
     handleImageUpload(event) {
-      // Obrada uploada slike
-      const files = event.target.files;
-      console.log("Uploadana slika:", file);
-      this.newRecipeData.recipeImage = "putanja/do/slike.jpg";
-      for (let i = 0; i < files.length; i++) {
-        this.newRecipeData.recipeImages.push(files[i]);
+      const file = event.target.files[0];
+      console.log("Uploaded image:", file);
+      if (file) {
+        this.newRecipeData.recipeImage = URL.createObjectURL(file);
       }
     },
   },
