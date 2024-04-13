@@ -11,15 +11,15 @@
 
     <form v-if="showForm" class="dodajrecept" @submit.prevent="addNewRecipe">
       <label>Naslov recepta:</label>
-      <input v-model="newRecipeData.recipeTitle" required />
+      <input v-model="titleInput" required />
       <label>Opis recepta:</label>
-      <textarea v-model="newRecipeData.recipeDescription" required></textarea>
+      <textarea v-model="descriptionInput" required></textarea>
       <label>Ime autora recepta:</label>
-      <input v-model="newRecipeData.authorName" required />
+      <input v-model="authorNameInput" required />
       <label for="recipeImages">Fotografije recepta:</label>
       <input
         type="file"
-        id="recipeImages"
+        id="recipeImagesInput"
         @change="handleImageUpload"
         accept="image/*"
         multiple
@@ -124,18 +124,17 @@ export default {
     async addNewRecipe() {
       try {
         const formData = new FormData();
-        formData.append("title", this.newRecipeData.recipeTitle);
-        formData.append("description", this.newRecipeData.recipeDescription);
-        formData.append("authorName", this.newRecipeData.authorName);
-        formData.append("recipeDetails", this.newRecipeData.recipeDetails);
-        formData.append("recipeImages", this.newRecipeData.recipeImage);
 
-        // Slanje na api
-        axios.post("/api/saverecipe", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        // slanje na api
+        const response = await axios.post("https://localhost:8080" / recipe, {
+          title: this.titleInput,
+          description: this.descriptionInput,
+          authorName: this.authorNameInput,
+          recipeDetails: this.recipeDetailsInput,
+          recipeImage: this.recipeImageInput,
         });
+        window.location.reload();
+        console.log("Note saved:", response.data);
 
         // ako uspijeh
         console.log("Recipe saved successfully:", response.data);

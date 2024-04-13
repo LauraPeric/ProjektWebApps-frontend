@@ -17,7 +17,7 @@ export default {
         {
           id: 1,
           avatar: require("@/assets/fg.png"),
-          name: "Antonela Med",
+          name: "Laura Perić",
           description:
             "Za sebe smatram da sam strastvena kuharica koja obožava istraživati svijet okusa i mirisa. Volim otkrivati nove recepte, dijelim svoje kulinarske eksperimente i uživam u interakciji s drugim ljubiteljima kuhanja. Volim provoditi slobodno vrijeme kušajući nove okuse, istražujući različite kuhinje i stvarajući jela koja griju srce. ",
           level: "Level kuhara: amater",

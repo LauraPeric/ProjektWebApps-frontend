@@ -43,8 +43,6 @@
           role="button"
           data-slide="prev"
         >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only"></span>
         </a>
         <a
           class="carousel-control-next"
@@ -52,15 +50,31 @@
           role="button"
           data-slide="next"
         >
-          <span class="sr-only"></span>
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
         </a>
       </div>
     </div>
 
     <div class="recipe-details">
       <div class="gray-box">
-        <p>{{ rec.recipeDetails }}</p>
+        <h4>Vrijeme pripreme: {{ rec.recipeDetails.cookingTime }}</h4>
+        <h4>Sastojci:</h4>
+        <ul>
+          <li
+            v-for="ingredient in rec.recipeDetails.ingredients"
+            :key="ingredient"
+          >
+            {{ ingredient }}
+          </li>
+        </ul>
+        <h4>Upute:</h4>
+        <ol>
+          <li
+            v-for="instruction in rec.recipeDetails.instructions"
+            :key="instruction"
+          >
+            {{ instruction }}
+          </li>
+        </ol>
       </div>
 
       <button class="download-button" @click="generatePDF">
@@ -87,6 +101,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { firebase, db } from "@/firebase";
 import html2canvas from "html2canvas";
@@ -99,10 +114,12 @@ export default {
     currentPhoto() {
       return this.rec.photos[this.currentPhotoIndex];
     },
+    favoriteIcon() {
+      return this.isFavorite ? "★" : "☆";
+    },
   },
   data() {
     console.log("Photos:", this.rec.photos);
-
     return {
       currentPhotoIndex: 0,
       newComment: "",
@@ -112,14 +129,9 @@ export default {
     };
   },
   created() {
-    this.currentPhotoIndex = 0; // Postavit početni indeks slike
-    this.userId = firebase.auth().currentUser?.uid; // Dohvatiti UID trenutnog korisnika
-    this.fetchUserRating(); // dohvatiti korisničku ocjenu
-  },
-  computed: {
-    favoriteIcon() {
-      return this.isFavorite ? "★" : "☆";
-    },
+    this.currentPhotoIndex = 0; // initial photo index
+    this.userId = firebase.auth().currentUser?.uid; // current user's UID
+    this.fetchUserRating(); // hvata user rating
   },
   methods: {
     toggleFavorite() {
@@ -131,48 +143,20 @@ export default {
     },
     rateRecipe(rating) {
       this.stars = this.stars.map((_, index) => (index < rating ? "★" : "☆"));
-
       if (this.userId !== null) {
         db.collection("ratings")
           .doc(`${this.userId}_${this.rec.recipeId}`)
           .set({ rating })
           .then(() => {
-            console.log("Ocjena je spremljena u Firestore");
+            console.log("Rating saved to Firestore");
           })
           .catch((error) => {
-            console.error("Pogreška prilikom spremanja u Firestore", error);
+            console.error("Error saving to Firestore", error);
           });
       }
     },
     async addComment() {
       if (this.newComment.trim() !== "") {
-        const commentData = {
-          authorName: "username", // Promijenit ovo s pravim imenom korisnika
-          commentText: this.newComment.trim(),
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        };
-
-        try {
-          const commentRef = await db
-            .collection("recipes")
-            .doc(this.rec.recipeId)
-            .collection("comments")
-            .add(commentData);
-
-          // dohvatite stvarno spremljeni komentar iz baze podataka
-          const commentSnapshot = await commentRef.get();
-          const comment = commentSnapshot.data();
-
-          // azuriranje lokalno stanje dodavanjem novog komentara
-          this.rec.comments.unshift({
-            authorName: comment.authorName,
-            commentText: comment.commentText,
-          });
-
-          this.newComment = "";
-        } catch (error) {
-          console.error("Pogreška prilikom spremanja komentara", error);
-        }
       }
     },
     fetchUserRating() {
@@ -230,8 +214,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style scoped>
 .naslov {

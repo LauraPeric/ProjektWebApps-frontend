@@ -20,24 +20,7 @@
           <router-link class="nav-link" to="/registracijakilia"
             >Pridruži se</router-link
           >
-          <li class="nav-item dropdown">
-            <router-link
-              class="nav-link dropdown-toggle"
-              to="/recepti"
-              href="#"
-              id="navbarDropdownMenuLink"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Recepti
-            </router-link>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
+          <router-link class="nav-link" to="/recepti"> Recepti </router-link>
           <router-link class="nav-link" to="/samiprofil">Profil</router-link>
           <router-link class="nav-link" to="/onama">O nama</router-link>
           <router-link class="nav-link" to="/forum">Forum</router-link>

@@ -1,32 +1,37 @@
 <template>
   <div class="forum">
-    <h1 style="margin-bottom: 40px">- Forum -</h1>
-    <input
-      style="padding: 7px; border-radius: 10px; border-color: black"
-      type="text"
-      placeholder="Pretraži teme..."
-      v-model="searchTerm"
-    />
+    <div class="forumheader">
+      <h1 style="margin-bottom: 40px">- Forum -</h1>
+      <input
+        style="padding: 7px; border-radius: 10px; border-color: black"
+        type="text"
+        placeholder="Pretraži teme..."
+        v-model="searchTerm"
+      />
 
-    <button v-if="showToggleButton" @click="toggleForm" class="btn btn-toggle">
-      Dodaj novu temu
-    </button>
+      <button
+        v-if="showToggleButton"
+        @click="toggleForm"
+        class="btn btn-toggle"
+      >
+        Dodaj novu temu
+      </button>
 
-    <form
-      v-if="showForm"
-      class="dodajtemu"
-      @submit.prevent="addNewTopic"
-      style=""
-    >
-      <!-- polje za unos podataka nove teme -->
-      <label for="title">Naslov teme:</label>
-      <textarea v-model="newTopicData.title" required></textarea>
-      <label for="shortDescription">Kratak opis teme:</label>
-      <textarea v-model="newTopicData.shortDescription" required></textarea>
+      <form
+        v-if="showForm"
+        class="dodajtemu"
+        @submit.prevent="addNewTopic"
+        style=""
+      >
+        <!-- polje za unos podataka nove teme -->
+        <label for="title">Naslov teme:</label>
+        <textarea v-model="newTopicData.title" required></textarea>
+        <label for="shortDescription">Kratak opis teme:</label>
+        <textarea v-model="newTopicData.shortDescription" required></textarea>
 
-      <button type="submit" class="btn btn-dodaj">Dodaj temu</button>
-    </form>
-
+        <button type="submit" class="btn btn-dodaj">Dodaj temu</button>
+      </form>
+    </div>
     <div class="separator-line"></div>
     <div
       class="row"
@@ -164,7 +169,7 @@ export default {
   background-color: rgb(160, 160, 160);
   border: none;
   cursor: pointer;
-  margin-left: 45%;
+  margin-left: 44.5%;
   margin-block: 5%;
   display: block;
 }
@@ -187,16 +192,8 @@ export default {
   cursor: pointer;
   margin-top: 8px;
   margin-left: 42%;
-  display: block;
-}
 
-.dodajrecept {
-  padding: 25px;
-  margin-top: 90px;
-  background-color: rgb(222, 215, 215);
-  width: 50%;
-  margin-left: 25%;
-  border-radius: 30px;
+  display: block;
 }
 
 .dodajtemu label {
