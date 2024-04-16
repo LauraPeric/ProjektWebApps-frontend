@@ -4,9 +4,18 @@
       <div class="favorite-icon" @click="toggleFavorite">
         {{ favoriteIcon }}
       </div>
-      <h2 class="naslov">{{ rec.recipeTitle }}</h2>
-      <p class="description">{{ rec.recipeDescription }}</p>
-      <p class="author">Recept od korisnika: {{ rec.authorName }}</p>
+      <div class="title-section">
+        <a
+          href="https://www.podravka.hr/proizvod/fant-mjesavina-za-spagete-bolognese/"
+        >
+          <img src="@/assets/P.png" alt="Recipe Image" class="recipe-image" />
+        </a>
+        <div>
+          <h2 class="naslov">{{ rec.recipeTitle }}</h2>
+          <p class="description">{{ rec.recipeDescription }}</p>
+          <p class="author">Recept od korisnika: {{ rec.authorName }}</p>
+        </div>
+      </div>
       <div class="rating">
         <span
           v-for="(star, index) in stars"
@@ -216,6 +225,13 @@ export default {
 </script>
 
 <style scoped>
+.recipe-image {
+  width: 100px;
+  height: auto;
+  margin-right: 70%;
+  border-radius: 8px;
+}
+
 .naslov {
   margin: 30px;
   font-size: 40px;

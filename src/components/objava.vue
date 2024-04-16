@@ -48,10 +48,34 @@ export default {
     };
   },
   methods: {
-    addComment() {
+    async addComment() {
       if (this.newComment.trim() !== "") {
-        this.post.comments.push(this.newComment.trim());
-        this.newComment = "";
+        try {
+          const response = await fetch(
+            `/api/topics/${this.post._id}/comments`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                topicId: this.post._id,
+                author: "Anonymous", // You can set the author dynamically if you have user authentication
+                content: this.newComment.trim(),
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to add comment");
+          }
+
+          const newComment = await response.json();
+          this.post.comments.push(newComment);
+          this.newComment = "";
+        } catch (error) {
+          console.error(error.message);
+        }
       }
     },
   },

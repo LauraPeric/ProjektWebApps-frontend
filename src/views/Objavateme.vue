@@ -1,6 +1,6 @@
 <template>
   <div class="post-view">
-    <h1 style="margin-bottom: 40px">Recepti za ukusne smoothieje</h1>
+    <h1 style="margin-bottom: 40px">Recepti za ukusne smoothiejee</h1>
     <objava :post="post" />
   </div>
 </template>

@@ -28,6 +28,8 @@
         <textarea v-model="newTopicData.title" required></textarea>
         <label for="shortDescription">Kratak opis teme:</label>
         <textarea v-model="newTopicData.shortDescription" required></textarea>
+        <label for="text">Objava:</label>
+        <textarea v-model="newTopicData.text" required></textarea>
 
         <button type="submit" class="btn btn-dodaj">Dodaj temu</button>
       </form>
@@ -107,6 +109,7 @@ export default {
       newTopicData: {
         title: "",
         shortDescription: "",
+        text: "",
         createdAt: "",
       },
       showToggleButton: true,
@@ -135,6 +138,7 @@ export default {
         id: this.topics.length + 1,
         title: this.newTopicData.title,
         shortDescription: this.newTopicData.shortDescription,
+        text: this.newTopicData.text,
         createdAt: this.newTopicData.createdAt,
       };
 

@@ -23,7 +23,7 @@ export default {
           level: "Level kuhara: amater",
           posts: [
             {
-              url: require("@/assets/pil.png"),
+              url: require("@/assets/rca.png"),
               cardtitle: "Piletina u umaku od gljiva",
               cardtext: "",
               route: "/samirecept",

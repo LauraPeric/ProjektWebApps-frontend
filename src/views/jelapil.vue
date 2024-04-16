@@ -25,7 +25,7 @@
         multiple
       />
       <label>Detalji recepta:</label>
-      <textarea v-model="newRecipeData.recipeDetails" required></textarea>
+      <textarea v-model="recipeDetailsInput" required></textarea>
       <button type="submit" class="btn btn-dodaj">Dodaj recept</button>
     </form>
 

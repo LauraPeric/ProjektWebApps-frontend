@@ -32,6 +32,7 @@ export default {
               "2 češnjaka sitno nasjeckana",
               "2 žlice maslinovog ulja",
               "Svježi bosiljak",
+              "FANT mješavina za špagete bolognese (PODRAVKA)- pregled klikom na footgorafiju 'Podravka'",
               "Sol i papar po ukusu",
               "Parmezan (opcionalno, za posipanje)",
               "TAJNI SASTOJAK (javorov sirup)",
