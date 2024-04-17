@@ -7,7 +7,7 @@ import axios from 'axios';
 
 createApp(App).use(router).mount('#app')
 
-axios.get('https://projektwebapps-backend-1.onrender.com')
+axios.get('https://projektwebapps-backend.onrender.com')
     .then(response => {
         // Handle successful response
         console.log(response.data);
